@@ -10,9 +10,9 @@ import random as r
 # if “n” the program will exit.
 
 def BettorChoices():
-    first_Number = input("Enter first number: ") 
-    second_Number = input("Enter second number: ") 
-    third_Number = input("Enter third number: ") 
+    first_Number = int(input("Enter first number: "))
+    second_Number = int(input("Enter second number: "))
+    third_Number = int(input("Enter third number: ")) 
     return first_Number, second_Number, third_Number
 
 def LotteryNumPicker():
@@ -24,8 +24,8 @@ def LotteryNumPicker():
 Usr_Decision = "proceed"
 Rpt_Term_Choice = "y"
 while Usr_Decision == "proceed":
-    WagererGuess = BettorChoices()
-    LuckyNumbers = LotteryNumPicker()
+    LuckyNumbers = list(LotteryNumPicker())
+    WagererGuess = list(BettorChoices())
     Usr_Decision = "normalized"
     while Rpt_Term_Choice == "y":
         Rpt_Term_Choice = "_"
