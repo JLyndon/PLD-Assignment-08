@@ -1,4 +1,4 @@
-import random
+import random as r
 # ----------- CONTEXT ---------------
 # Program 1: Lottery
 # Create a program that ask 3 numbers (0-9) from the user.
@@ -9,13 +9,24 @@ import random
 # If the user enter “y” the user will play again
 # if “n” the program will exit.
 
-first_Number = input("Enter first number: ") 
-second_Number = input("Enter second number: ") 
-third_Number = input("Enter third number: ") 
+def BettorChoices():
+    first_Number = input("Enter first number: ") 
+    second_Number = input("Enter second number: ") 
+    third_Number = input("Enter third number: ") 
+    return first_Number, second_Number, third_Number
 
-random_no_01 = random.randint(0-9)
-random_no_02 = random.randint(0-9)
+def LotteryNumPicker():
+    random_no_01 = r.randint(0,9)
+    random_no_02 = r.randint(0,9)
+    random_no_03 = r.randint(0,9)
+    return random_no_01, random_no_02, random_no_03
 
-print("Winner")
-print("You loss")
 print("Try again \n y/n")
+
+WagererGuess = BettorChoices()
+LuckyNumbers = LotteryNumPicker()
+
+if sorted(WagererGuess) == sorted(LuckyNumbers):
+    print("Winner")
+else:
+    print("You loss")
