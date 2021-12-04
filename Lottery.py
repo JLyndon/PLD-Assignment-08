@@ -21,12 +21,24 @@ def LotteryNumPicker():
     random_no_03 = r.randint(0,9)
     return random_no_01, random_no_02, random_no_03
 
-print("Try again \n y/n")
-
-WagererGuess = BettorChoices()
-LuckyNumbers = LotteryNumPicker()
-
-if sorted(WagererGuess) == sorted(LuckyNumbers):
-    print("Winner")
-else:
-    print("You loss")
+Usr_Decision = "proceed"
+Rpt_Term_Choice = "y"
+while Usr_Decision == "proceed":
+    WagererGuess = BettorChoices()
+    LuckyNumbers = LotteryNumPicker()
+    Usr_Decision = "normalized"
+    while Rpt_Term_Choice == "y":
+        Rpt_Term_Choice = "_"
+        if sorted(WagererGuess) == sorted(LuckyNumbers):
+            print("Winner")
+        else:
+            print("You loss")
+        print("Try again \n y/n")
+    while Usr_Decision == "normalized":
+        Rpt_Term_Choice = input("\n\n> ").lower()
+        if Rpt_Term_Choice == "n":
+            Usr_Decision = "exit"
+        elif Rpt_Term_Choice == "y":
+            Usr_Decision = "proceed"
+        else:
+            print("Unknown Command")
