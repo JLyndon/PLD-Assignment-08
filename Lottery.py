@@ -10,38 +10,38 @@ import random as r
 # if “n” the program will exit.
 
 def NumericChecker(Usr_Input): # Checks Input Eligibility - Separate Function for Numeric Input
-    if "-" and "." not in Usr_Input:
+    if ("." not in Usr_Input) and ("-" not in Usr_Input):
         return int(Usr_Input)
-    elif "." in Usr_Input:
-        WholeVal, Fraction = Usr_Input.split(".")
-        if ((Fraction == None) or (Fraction == "")) or (Fraction.isspace() == True) or (int(Fraction) == 0): # Verification - Clarify if the User is including the decimal as input and convert if not.
-            print(f"Did you mean {WholeVal}? \n    Yes or No")
-            while True:
-                VerifyUsr = input("\n> ").lower()
-                for char in VerifyUsr:
-                    if char == "y":
-                        return int(WholeVal)
-                    elif char == "n":
-                        print("Input must be a whole number! A fraction cannot be wagered")
-                        return "not_valid"
-        elif int(Fraction) > 0:
-            print("Input must be a whole number! A fraction cannot be wagered")
-            return "not_valid"
-    elif "-" and "." in Usr_Input:
-        if Usr_Input.replace("-", "").replace(".", "").isdecimal() == True:
-            print("Negative values and fractions cannot be wagered")
-            return "not_valid"
-    elif "-" in Usr_Input:
-        print("Negative values cannot be wagered")
+    elif ("." in Usr_Input) and ("-" in Usr_Input):
+        print("Negative values and fractions cannot be wagered")
         return "not_valid"
+    elif "-" or "." in Usr_Input:
+        if "." in Usr_Input:
+            WholeVal, Fraction = Usr_Input.split(".")
+            if ((Fraction == None) or (Fraction == "")) or (Fraction.isspace() == True) or (int(Fraction) == 0): # Verification - Clarify if the User is including the decimal as input and convert if not.
+                print(f"Did you mean {WholeVal}? \n    Yes or No")
+                while True:
+                    VerifyUsr = input("\n> ").lower()
+                    for char in VerifyUsr:
+                        if char == "y":
+                            return int(WholeVal)
+                        elif char == "n":
+                            print("Input must be a whole number! A fraction cannot be wagered")
+                            return "not_valid"
+            elif int(Fraction) > 0:
+                print("Input must be a whole number! A fraction cannot be wagered")
+                return "not_valid"
+        elif "-" in Usr_Input:
+            print("Negative values cannot be wagered")
+            return "not_valid"
     else:
-        print("Invalid input format")
+        InputValidator(Usr_Input)
         return "not_valid"
 
 def InputValidator(EvalueeStr): # Checks Input Eligibility - Separate Function for non-Numeric Input
     if (EvalueeStr.isalpha() == True) or (EvalueeStr.isalnum() == True):
         return print("Input must only be a number!")
-    elif (EvalueeStr.isspace() == True) or (EvalueeStr == None):
+    elif (EvalueeStr.isspace() == True) or (EvalueeStr == None) or (EvalueeStr == ""):
         return print("You've typed in an empty value! Please enter a number")
     elif " " in EvalueeStr:
         return print("Inputs must not have a space!")
@@ -51,22 +51,28 @@ def InputValidator(EvalueeStr): # Checks Input Eligibility - Separate Function f
 def BettorChoices(): # Input Prompts
     while True:
         first_Number = input("\nEnter first number: ")
-        if (first_Number.isdecimal() == True) or ("-" or "." in first_Number):
+        if first_Number.replace("-", "").replace(".", "").isdecimal() == True:
             FGuess = NumericChecker(first_Number)
             if FGuess == "not_valid":
                 continue
             else:
                 while True:
                     second_Number = input("\nEnter second number: ")
-                    if (second_Number.isdecimal() == True) or ("-" or "." in second_Number):
+                    if second_Number.replace("-", "").replace(".", "").isdecimal() == True:
                         SGuess = NumericChecker(second_Number)
-                        while True:
-                            third_Number = input("\nEnter third number: ")
-                            if (third_Number.isdecimal() == True) or ("-" or "." in third_Number):
-                                ThGuess = NumericChecker(third_Number)
-                                return FGuess, SGuess, ThGuess
-                            else:
-                                InputValidator(third_Number)
+                        if SGuess == "not_valid":
+                            continue
+                        else:
+                            while True:
+                                third_Number = input("\nEnter third number: ")
+                                if third_Number.replace("-", "").replace(".", "").isdecimal() == True:
+                                    ThGuess = NumericChecker(third_Number)
+                                    if ThGuess == "not_valid":
+                                        continue
+                                    else:
+                                        return FGuess, SGuess, ThGuess
+                                else:
+                                    InputValidator(third_Number)
                     else:
                         InputValidator(second_Number)
         else:
