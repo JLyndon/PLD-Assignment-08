@@ -9,29 +9,68 @@ import random as r
 # If the user enter “y” the user will play again
 # if “n” the program will exit.
 
-def InputValidator(Usr_Input):
-    if Usr_Input.isdecimal() == True:
+def NumericChecker(Usr_Input): # Checks Input Eligibility - Separate Function for Numeric Input
+    if "-" and "." not in Usr_Input:
         return int(Usr_Input)
-    elif (Usr_Input.isalpha() == True) or (Usr_Input.isalnum() == True):
-        return print("Input must only be a number!")
-    elif (Usr_Input.isspace() == True) or (Usr_Input == None):
-        return print("You've typed in an empty value! Please enter a number")
+    elif "." in Usr_Input:
+        WholeVal, Fraction = Usr_Input.split(".")
+        if ((Fraction == None) or (Fraction == "")) or (Fraction.isspace() == True) or (int(Fraction) == 0): # Verification - Clarify if the User is including the decimal as input and convert if not.
+            print(f"Did you mean {WholeVal}? \n    Yes or No")
+            while True:
+                VerifyUsr = input("\n> ").lower()
+                for char in VerifyUsr:
+                    if char == "y":
+                        return int(WholeVal)
+                    elif char == "n":
+                        print("Input must be a whole number! A fraction cannot be wagered")
+                        return "not_valid"
+        elif int(Fraction) > 0:
+            print("Input must be a whole number! A fraction cannot be wagered")
+            return "not_valid"
+    elif "-" and "." in Usr_Input:
+        if Usr_Input.replace("-", "").replace(".", "").isdecimal() == True:
+            print("Negative values and fractions cannot be wagered")
+            return "not_valid"
+    elif "-" in Usr_Input:
+        print("Negative values cannot be wagered")
+        return "not_valid"
     else:
-        if Usr_Input.replace(".", "").isdecimal() == True:
-            return print("Input must be a whole number! A fraction cannot be wagered")
-        elif "-" and "." in Usr_Input:
-            if Usr_Input.replace("-", "").replace(".", "").isdecimal() == True:
-                return print("Negative values and fractions cannot be wagered")
-        elif "-" in Usr_Input:
-            return print("Negative values cannot be wagered")
-        else:
-            print("Invalid input format")
+        print("Invalid input format")
+        return "not_valid"
+
+def InputValidator(EvalueeStr): # Checks Input Eligibility - Separate Function for non-Numeric Input
+    if (EvalueeStr.isalpha() == True) or (EvalueeStr.isalnum() == True):
+        return print("Input must only be a number!")
+    elif (EvalueeStr.isspace() == True) or (EvalueeStr == None):
+        return print("You've typed in an empty value! Please enter a number")
+    elif " " in EvalueeStr:
+        return print("Inputs must not have a space!")
+    else:
+        print("Invalid input format")
 
 def BettorChoices(): # Input Prompts
-    first_Number = input("Enter first number: ")
-    second_Number = input("Enter second number: ")
-    third_Number = input("Enter third number: ")
-    return first_Number, second_Number, third_Number
+    while True:
+        first_Number = input("\nEnter first number: ")
+        if (first_Number.isdecimal() == True) or ("-" or "." in first_Number):
+            FGuess = NumericChecker(first_Number)
+            if FGuess == "not_valid":
+                continue
+            else:
+                while True:
+                    second_Number = input("\nEnter second number: ")
+                    if (second_Number.isdecimal() == True) or ("-" or "." in second_Number):
+                        SGuess = NumericChecker(second_Number)
+                        while True:
+                            third_Number = input("\nEnter third number: ")
+                            if (third_Number.isdecimal() == True) or ("-" or "." in third_Number):
+                                ThGuess = NumericChecker(third_Number)
+                                return FGuess, SGuess, ThGuess
+                            else:
+                                InputValidator(third_Number)
+                    else:
+                        InputValidator(second_Number)
+        else:
+            InputValidator(first_Number)
 
 def LotteryNumPicker(): # Randomizer Function - Number Generator
     random_no_01 = r.randint(0,9)
