@@ -51,9 +51,12 @@ def InputValidator(EvalueeStr): # Checks Input Eligibility - Separate Function f
 def BettorChoices(): # Input Prompts
     while True:
         first_Number = input("\nEnter first number: ")
-        if first_Number.replace("-", "").replace(".", "").isdecimal() == True:
-            FGuess = NumericChecker(first_Number)
-            if FGuess == "not_valid":
+        if first_Number.replace("-", "").replace(".", "").isdecimal() == True: # Checks whether the string is numeric or not.
+            FGuess = NumericChecker(first_Number)                          # Uses NumericChecker if Numeric
+            if FGuess == "not_valid":                                      # Uses InputValidator if non-Numeric
+                continue
+            elif FGuess > 9:
+                print("For each input, the number value is limited to 9")
                 continue
             else:
                 while True:
@@ -62,12 +65,18 @@ def BettorChoices(): # Input Prompts
                         SGuess = NumericChecker(second_Number)
                         if SGuess == "not_valid":
                             continue
+                        if SGuess > 9:
+                            print("The number value for this lottery is limited to 9")
+                            continue
                         else:
                             while True:
                                 third_Number = input("\nEnter third number: ")
                                 if third_Number.replace("-", "").replace(".", "").isdecimal() == True:
                                     ThGuess = NumericChecker(third_Number)
                                     if ThGuess == "not_valid":
+                                        continue
+                                    elif ThGuess > 9:
+                                        print("The number value for this lottery is limited to 9")
                                         continue
                                     else:
                                         return FGuess, SGuess, ThGuess
@@ -79,28 +88,31 @@ def BettorChoices(): # Input Prompts
             InputValidator(first_Number)
 
 def LotteryNumPicker(): # Randomizer Function - Number Generator
-    random_no_01 = r.randint(0,9)
-    random_no_02 = r.randint(0,9)
-    random_no_03 = r.randint(0,9)
-    return random_no_01, random_no_02, random_no_03
+    RandomNumList = list()
+    while len(RandomNumList) <= 2:
+        random_number = r.randint(0,9)
+        RandomNumList.append(random_number)
+    else:
+        return RandomNumList
 
 # Main Prog
 Usr_Decision = "proceed"
 
 while Usr_Decision == "proceed":
-    LuckyNumbers = list(LotteryNumPicker())
+    LuckyNumbers = LotteryNumPicker()
     WagererGuess = list(BettorChoices())
     Usr_Decision = "normalized"
     if sorted(WagererGuess) == sorted(LuckyNumbers):
-        print("Winner")
+        print("\n", "Winner".center(38, " "))
     else:
-        print("You loss")
-    print("Try again \n y/n")
+        print("\n","You loss".center(36, " "))
+    print("Try again ( y/n )".center(40, " "))
     while Usr_Decision == "normalized":
         Rpt_Term_Choice = input("\n\n> ").lower()
-        if Rpt_Term_Choice == "n":
-            Usr_Decision = "exit"
-        elif Rpt_Term_Choice == "y":
-            Usr_Decision = "proceed"
-        else:
+        for charac in Rpt_Term_Choice:
+            if charac == "n":
+                Usr_Decision = "exit"
+            elif charac == "y":
+                Usr_Decision = "proceed"
+        if Usr_Decision == "normalized":
             print("Unknown Command")
