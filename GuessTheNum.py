@@ -11,7 +11,15 @@ mysteryNum = rnd.randint(0,100)
 
 while mysteryNum != "guessed":
     Usr_Guess = input("Guess the number: ")
-    if Usr_Guess != mysteryNum:
-        continue
-    elif Usr_Guess == mysteryNum:
-        break
+    if Usr_Guess.isdecimal() == True:
+        if int(Usr_Guess) != mysteryNum:
+            if int(Usr_Guess) < mysteryNum:
+                print("Less than")
+            elif int(Usr_Guess) > mysteryNum:
+                print("Greater than")
+        elif int(Usr_Guess) == mysteryNum:
+            mysteryNum = "guessed"
+    else:
+        print("Invalid number")
+else:
+    print("Congratulations! You win!")
