@@ -1,4 +1,6 @@
 import random as r
+import time as tm
+from NumDecor import DecorWinningNumbers as Decor
 # ----------- CONTEXT ---------------
 # Program 1: Lottery
 # Create a program that ask 3 numbers (0-9) from the user.
@@ -60,7 +62,7 @@ def BettorChoices(): # Input Prompts
             if FGuess == "not_valid":                                      # Uses InputValidator if non-Numeric
                 continue
             elif FGuess > 9:
-                print("For each input, the number value is limited to 0-9")
+                print(f"{Red}For each input, the number value is limited to {Yllw}0-9{End}")
                 continue
             else:
                 while True:
@@ -70,7 +72,7 @@ def BettorChoices(): # Input Prompts
                         if SGuess == "not_valid":
                             continue
                         elif SGuess > 9:
-                            print("The number value for this lottery is limited to 0-9")
+                            print(f"{Red}The number value for this lottery is limited to {Yllw}0-9{End}")
                             continue
                         else:
                             if SGuess == FGuess:
@@ -84,7 +86,7 @@ def BettorChoices(): # Input Prompts
                                         if ThGuess == "not_valid":
                                             continue
                                         elif ThGuess > 9:
-                                            print("The number value for this lottery is limited to 0-9")
+                                            print(f"{Red}The number value for this lottery is limited to {Yllw}0-9{End}")
                                             continue
                                         else:
                                             if (ThGuess == SGuess) or (ThGuess == FGuess):
@@ -111,6 +113,20 @@ def LotteryNumPicker(): # Randomizer Function - Number Generator
     else:
         return RandomNumList
 
+def Decoratives(WinningNums): # Add-on - Decorations; Imports a function from different file. 
+    print("\n","\n",f"{Itlc}All in?{End}".center(63, " "),"\n","\n",f"{Grn}Alright{End}!".center(63, " "),"\n",f"Let the lottery begin! {Bldtxt}\33[44m  DRAW  {End}".center(68, " "),"\n", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".center(56, " "))
+    tm.sleep(1.3)
+    number = 0
+    while number <= 2:
+        if number == 2:
+            print(f"{Itlc}And for the final draw:{End}".center(64, " "))
+            tm.sleep(1.6)
+        for delay in "..":
+            tm.sleep(1)
+            print(delay.center(50, " "))
+        Decor(WinningNums[number])
+        number += 1
+
 # Main Prog
 Red = "\33[91m" # Decorative Variable Group
 Grn = "\33[92m"
@@ -122,15 +138,18 @@ Bldtxt = "\33[1m"
 
 Usr_Decision = "proceed" # Initial Counter - Variable
 
+print("\n",f"Welcome to the \33[41m{Bldtxt} Lottery {End}!".center(71, " "), "\n","━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".center(60, " "),"\n", f"Place your {Red}risky bets{End}!".center(67, " "), "\n", f"The winning numbers will be drawn {Grn}shortly{End}.".center(70, " "),"\n","\n","\n",f"{Blue}{Itlc}Pick three {End}{Blue}({Grn}3{Blue}) {Itlc}numbers from {End}{Yllw}0-9{End}")
+
 while Usr_Decision == "proceed": # Main Loop
     LuckyNumbers = LotteryNumPicker()
     WagererGuess = list(BettorChoices())
     Usr_Decision = "normalized"
+    Decoratives(LuckyNumbers) # Add-on Decor - Uses Function from NumDecor.py
     if sorted(WagererGuess) == sorted(LuckyNumbers):
         print("\n", f"{Grn}Winner{End}".center(35, " "))
     else:
         print("\n",f"{Red}You loss{End}".center(36, " "))
-    print(f"Try again ( {Grn}y{End}/{Red}n{End} )".center(48, " "))
+    print(f"Try again ( {Grn}y{End}/{Red}n{End} )".center(48, " "),"\n", f"\33[90m━━━━━━━━━━━━━━━━━━━━━━━{End}".center(35, " "))
     while Usr_Decision == "normalized":     # Inner while Loop - for repetition
         Rpt_Term_Choice = input("\n\n> ").lower()
         for charac in Rpt_Term_Choice:
@@ -140,3 +159,5 @@ while Usr_Decision == "proceed": # Main Loop
                 Usr_Decision = "proceed"
         if Usr_Decision == "normalized":
             print(f"{Red}Unknown Command{End}")
+
+print("\n", f"{Itlc}Have a good day :){End}")
