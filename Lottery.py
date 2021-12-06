@@ -80,9 +80,9 @@ def BettorChoices(): # Input Prompts
                                 continue
                             else:
                                 while True:
-                                    thiRed_Number = input(f"\nEnter {Bldtxt}third{End} number: ")
-                                    if thiRed_Number.replace("-", "").replace(".", "").isdecimal() == True:
-                                        ThGuess = NumericChecker(thiRed_Number)
+                                    third_Number = input(f"\nEnter {Bldtxt}third{End} number: ")
+                                    if third_Number.replace("-", "").replace(".", "").isdecimal() == True:
+                                        ThGuess = NumericChecker(third_Number)
                                         if ThGuess == "not_valid":
                                             continue
                                         elif ThGuess > 9:
@@ -96,7 +96,7 @@ def BettorChoices(): # Input Prompts
                                                 return FGuess, SGuess, ThGuess 
                                                 # If all the conditions are met, returns Multiple Values to be compared to the List of Winning Numbers.
                                     else:
-                                        InputValidator(thiRed_Number)
+                                        InputValidator(third_Number)
                     else:
                         InputValidator(second_Number)
         else:
