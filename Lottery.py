@@ -12,41 +12,45 @@ import random as r
 def NumericChecker(Usr_Input): # Checks Input Eligibility - Separate Function for Numeric Input
     if ("." not in Usr_Input) and ("-" not in Usr_Input):
         return int(Usr_Input)
-    elif ("." in Usr_Input) and ("-" in Usr_Input):
-        print("Negative values and fractions cannot be wagered")
-        return "not_valid"
-    elif "-" or "." in Usr_Input:
-        if "." in Usr_Input:
-            WholeVal, Fraction = Usr_Input.split(".")
-            if ((Fraction == None) or (Fraction == "")) or (Fraction.isspace() == True) or (int(Fraction) == 0): # Verification - Clarify if the User is including the decimal as input and convert if not.
-                print(f"Did you mean {WholeVal}? \n    Yes or No")
-                while True:
-                    VerifyUsr = input("\n> ").lower()
-                    for char in VerifyUsr:
-                        if char == "y":
-                            return int(WholeVal)
-                        elif char == "n":
-                            print("Input must be a whole number! A fraction cannot be wagered")
-                            return "not_valid"
-            elif int(Fraction) > 0:
-                print("Input must be a whole number! A fraction cannot be wagered")
-                return "not_valid"
-        elif "-" in Usr_Input:
-            print("Negative values cannot be wagered")
-            return "not_valid"
     else:
-        InputValidator(Usr_Input)
-        return "not_valid"
+        if (Usr_Input.count("-") == 1) and (Usr_Input.count(".") == 1):
+            if ("." in Usr_Input) and ("-" in Usr_Input):
+                print(f"{Red}Negative values and fractions cannot be wagered{End}")
+                return "not_valid"
+        elif (Usr_Input.count("-") <= 1) and (Usr_Input.count(".") <= 1):
+            if "-" or "." in Usr_Input:
+                if "." in Usr_Input:
+                    WholeVal, Fraction = Usr_Input.split(".")
+                    if ((Fraction == None) or (Fraction == "")) or (Fraction.isspace() == True) or (int(Fraction) == 0): # Verification - Clarify if the User is including the decimal as input and convert if not.
+                        print(f"{Blue}{Itlc}Did you mean {End}{Yllw}{WholeVal}{End}?".center(48, " "),"\n", f"{Grn}Yes{End} or {Red}No{End}".center(40, " "))
+                        while True:
+                            VerifyUsr = input("\n> ").lower()
+                            for char in VerifyUsr:
+                                if char == "y":
+                                    return int(WholeVal)
+                                elif char == "n":
+                                    print(f"{Red}Input must be a whole number! A fraction cannot be wagered{End}")
+                                    return "not_valid"
+                            print(f"{Red}Unknown command{End}")
+                    elif int(Fraction) > 0:
+                        print(f"{Red}Input must be a whole number! A fraction cannot be wagered{End}")
+                        return "not_valid"
+                elif "-" in Usr_Input:
+                    print(f"{Red}Negative values cannot be wagered{End}")
+                    return "not_valid"
+        else:
+            print(f"{Red}Invalid input format{End}")
+            return "not_valid"
 
 def InputValidator(EvalueeStr): # Checks Input Eligibility - Separate Function for non-Numeric Input
     if (EvalueeStr.isalpha() == True) or (EvalueeStr.isalnum() == True):
-        return print("Input must only be a number!")
+        return print(f"{Red}Input must only be a number!{End}")
     elif (EvalueeStr.isspace() == True) or (EvalueeStr == None) or (EvalueeStr == ""):
-        return print("You've typed in an empty value! Please enter a number")
+        return print(f"{Red}You've typed in an empty value! Please enter a number{End}")
     elif " " in EvalueeStr:
-        return print("Inputs must not have a space!")
+        return print(f"{Red}Inputs must not have a space!{End}")
     else:
-        print("Invalid input format")
+        print(f"{Red}Invalid input format{End}")
 
 def BettorChoices(): # Input Prompts
     while True:
@@ -56,7 +60,7 @@ def BettorChoices(): # Input Prompts
             if FGuess == "not_valid":                                      # Uses InputValidator if non-Numeric
                 continue
             elif FGuess > 9:
-                print("For each input, the number value is limited to 9")
+                print("For each input, the number value is limited to 0-9")
                 continue
             else:
                 while True:
@@ -66,22 +70,31 @@ def BettorChoices(): # Input Prompts
                         if SGuess == "not_valid":
                             continue
                         if SGuess > 9:
-                            print("The number value for this lottery is limited to 9")
+                            print("The number value for this lottery is limited to 0-9")
                             continue
                         else:
-                            while True:
-                                third_Number = input("\nEnter third number: ")
-                                if third_Number.replace("-", "").replace(".", "").isdecimal() == True:
-                                    ThGuess = NumericChecker(third_Number)
-                                    if ThGuess == "not_valid":
-                                        continue
-                                    elif ThGuess > 9:
-                                        print("The number value for this lottery is limited to 9")
-                                        continue
+                            if SGuess == FGuess:
+                                print(f"{Red}Numbers cannot have a duplicate{End}")
+                                continue
+                            else:
+                                while True:
+                                    thiRed_Number = input("\nEnter third number: ")
+                                    if thiRed_Number.replace("-", "").replace(".", "").isdecimal() == True:
+                                        ThGuess = NumericChecker(thiRed_Number)
+                                        if ThGuess == "not_valid":
+                                            continue
+                                        elif ThGuess > 9:
+                                            print("The number value for this lottery is limited to 0-9")
+                                            continue
+                                        else:
+                                            if (ThGuess == SGuess) or (ThGuess == FGuess):
+                                                print(f"{Red}Numbers cannot have a duplicate{End}")
+                                                continue
+                                            else:
+                                                return FGuess, SGuess, ThGuess 
+                                                # If all the conditions are met, returns Multiple Values to be compared to the List of Winning Numbers.
                                     else:
-                                        return FGuess, SGuess, ThGuess
-                                else:
-                                    InputValidator(third_Number)
+                                        InputValidator(thiRed_Number)
                     else:
                         InputValidator(second_Number)
         else:
@@ -91,11 +104,21 @@ def LotteryNumPicker(): # Randomizer Function - Number Generator
     RandomNumList = list()
     while len(RandomNumList) <= 2:
         random_number = r.randint(0,9)
-        RandomNumList.append(random_number)
+        if random_number in RandomNumList: # Prevents numbers from repeating
+            continue
+        else:
+            RandomNumList.append(random_number)
     else:
         return RandomNumList
 
 # Main Prog
+Red = "\33[91m"
+Grn = "\33[92m"
+Yllw = "\33[93m"
+Blue = "\33[94m"
+End = "\33[0m"
+Itlc = "\33[3m"
+
 Usr_Decision = "proceed"
 
 while Usr_Decision == "proceed":
