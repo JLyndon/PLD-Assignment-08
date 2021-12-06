@@ -7,7 +7,7 @@ import random as r
 # Display ”You loss” if not
 # Display ”Try again y/n” after each game
 # If the user enter “y” the user will play again
-# if “n” the program will exit.
+# If “n” the program will exit.
 
 def NumericChecker(Usr_Input): # Checks Input Eligibility - Separate Function for Numeric Input
     if ("." not in Usr_Input) and ("-" not in Usr_Input):
@@ -54,7 +54,7 @@ def InputValidator(EvalueeStr): # Checks Input Eligibility - Separate Function f
 
 def BettorChoices(): # Input Prompts
     while True:
-        first_Number = input("\nEnter first number: ")
+        first_Number = input(f"\nEnter {Bldtxt}first{End} number: ")
         if first_Number.replace("-", "").replace(".", "").isdecimal() == True: # Checks whether the string is numeric or not.
             FGuess = NumericChecker(first_Number)                          # Uses NumericChecker if Numeric
             if FGuess == "not_valid":                                      # Uses InputValidator if non-Numeric
@@ -64,12 +64,12 @@ def BettorChoices(): # Input Prompts
                 continue
             else:
                 while True:
-                    second_Number = input("\nEnter second number: ")
+                    second_Number = input(f"\nEnter {Bldtxt}second{End} number: ")
                     if second_Number.replace("-", "").replace(".", "").isdecimal() == True:
                         SGuess = NumericChecker(second_Number)
                         if SGuess == "not_valid":
                             continue
-                        if SGuess > 9:
+                        elif SGuess > 9:
                             print("The number value for this lottery is limited to 0-9")
                             continue
                         else:
@@ -78,7 +78,7 @@ def BettorChoices(): # Input Prompts
                                 continue
                             else:
                                 while True:
-                                    thiRed_Number = input("\nEnter third number: ")
+                                    thiRed_Number = input(f"\nEnter {Bldtxt}third{End} number: ")
                                     if thiRed_Number.replace("-", "").replace(".", "").isdecimal() == True:
                                         ThGuess = NumericChecker(thiRed_Number)
                                         if ThGuess == "not_valid":
@@ -112,25 +112,26 @@ def LotteryNumPicker(): # Randomizer Function - Number Generator
         return RandomNumList
 
 # Main Prog
-Red = "\33[91m"
+Red = "\33[91m" # Decorative Variable Group
 Grn = "\33[92m"
 Yllw = "\33[93m"
 Blue = "\33[94m"
 End = "\33[0m"
 Itlc = "\33[3m"
+Bldtxt = "\33[1m"
 
-Usr_Decision = "proceed"
+Usr_Decision = "proceed" # Initial Counter - Variable
 
-while Usr_Decision == "proceed":
+while Usr_Decision == "proceed": # Main Loop
     LuckyNumbers = LotteryNumPicker()
     WagererGuess = list(BettorChoices())
     Usr_Decision = "normalized"
     if sorted(WagererGuess) == sorted(LuckyNumbers):
-        print("\n", "Winner".center(38, " "))
+        print("\n", f"{Grn}Winner{End}".center(35, " "))
     else:
-        print("\n","You loss".center(36, " "))
-    print("Try again ( y/n )".center(40, " "))
-    while Usr_Decision == "normalized":
+        print("\n",f"{Red}You loss{End}".center(36, " "))
+    print(f"Try again ( {Grn}y{End}/{Red}n{End} )".center(48, " "))
+    while Usr_Decision == "normalized":     # Inner while Loop - for repetition
         Rpt_Term_Choice = input("\n\n> ").lower()
         for charac in Rpt_Term_Choice:
             if charac == "n":
@@ -138,4 +139,4 @@ while Usr_Decision == "proceed":
             elif charac == "y":
                 Usr_Decision = "proceed"
         if Usr_Decision == "normalized":
-            print("Unknown Command")
+            print(f"{Red}Unknown Command{End}")
