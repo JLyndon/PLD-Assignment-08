@@ -24,7 +24,7 @@ def NumericChecker(Usr_Input): # Checks Input Eligibility - Separate Function fo
                 if "." in Usr_Input:
                     WholeVal, Fraction = Usr_Input.split(".")
                     if ((Fraction == None) or (Fraction == "")) or (Fraction.isspace() == True) or (int(Fraction) == 0): # Verification - Clarify if the User is including the decimal as input and convert if not.
-                        print(f"{Blue}{Itlc}Did you mean {End}{Yllw}{WholeVal}{End}?".center(48, " "),"\n", f"{Grn}Yes{End} or {Red}No{End}".center(40, " "))
+                        print("\n", f"{Blue}{Itlc}Did you mean {End}{Yllw}{WholeVal}{End}?".center(48, " "),"\n", f"{Grn}Yes{End} or {Red}No{End}".center(42, " "))
                         while True:
                             VerifyUsr = input("\n> ").lower()
                             for char in VerifyUsr:
@@ -114,7 +114,7 @@ def LotteryNumPicker(): # Randomizer Function - Number Generator
         return RandomNumList
 
 def Decoratives(WinningNums): # Add-on - Decorations; Imports a function from different file. 
-    print("\n","\n",f"{Itlc}All in?{End}".center(63, " "),"\n","\n",f"{Grn}Alright{End}!".center(63, " "),"\n",f"Let the lottery begin! {Bldtxt}\33[44m  DRAW  {End}".center(68, " "),"\n", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".center(56, " "))
+    print("\n","\n",f"{Itlc}All in?{End}".center(63, " "),"\n","\n",f"{Grn}Alright!{End}".center(63, " "),"\n",f"Let the lottery begin! {Bldtxt}\33[41m DRAW {End}".center(68, " "),"\n", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".center(56, " "))
     tm.sleep(1.3)
     number = 0
     while number <= 2:
@@ -146,7 +146,7 @@ while Usr_Decision == "proceed": # Main Loop
     Usr_Decision = "normalized"
     Decoratives(LuckyNumbers) # Add-on Decor - Uses Function from NumDecor.py
     if sorted(WagererGuess) == sorted(LuckyNumbers):
-        print("\n", f"{Grn}Winner{End}".center(35, " "))
+        print("\n", f"{Grn}{Bldtxt}Winner{End}".center(35, " "))
     else:
         print("\n",f"{Red}You loss{End}".center(36, " "))
     print(f"Try again ( {Grn}y{End}/{Red}n{End} )".center(48, " "),"\n", f"\33[90m━━━━━━━━━━━━━━━━━━━━━━━{End}".center(35, " "))
@@ -156,6 +156,8 @@ while Usr_Decision == "proceed": # Main Loop
             if charac == "n":
                 Usr_Decision = "exit"
             elif charac == "y":
+                print("\n\n",f" {Blue}{Itlc}Let's go one more round!{End}")
+                print(f"\33[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{End}")
                 Usr_Decision = "proceed"
         if Usr_Decision == "normalized":
             print(f"{Red}Unknown Command{End}")
