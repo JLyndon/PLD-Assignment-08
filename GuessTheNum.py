@@ -28,6 +28,18 @@ while mysteryNum != "guessed": # Continue iteration if the value is unchanged
         elif int(Usr_Guess) == mysteryNum:
             mysteryNum = "guessed"
     else:
-        print(f"{Red}Invalid number{End}")
+        if ("-" in Usr_Guess) or ("." in Usr_Guess):
+            if Usr_Guess.replace("-", "").replace(".", "").isdecimal() == True:
+                print(f"{Red}You're guessing a positive whole number{End}")
+            else:
+                print(f"{Red}Invalid number{End}")
+        elif Usr_Guess.isalpha() == True:
+            print(f"{Red}That's not a number!{End}")
+        elif Usr_Guess.isalnum() == True:
+            print(f"{Red}Inputs must only be a number!{End}")
+        elif (Usr_Guess.isspace() == True) or ((Usr_Guess == None) or (Usr_Guess == "")):
+            print(f"{Red}You've entered an empty value!{End}")
+        else:
+            print(f"{Red}Invalid number{End}")
 else:
-    print(f"{Bldtxt}{Yllw}Congratulations! You win!{End}m,")
+    print(f"{Bldtxt}{Yllw}Congratulations! You win!{End}")
